@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sridhar - Elite Neo Brutalist Portfolio</title>
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+    <style>
+        /* Base styles */
+        :root {
+            --primary-color: #ff6b6b;
+            --secondary-color: #4ecdc4;
+            --accent-color: #feca57;
+            --text-color: #2c3e50;
+            --background-color: #ecf0f1;
+            --neon-glow: 0 0 10px var(--accent-color), 0 0 20px var(--accent-color), 0 0 30px var(--accent-color);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto Mono', monospace;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Typography */
+        h1, h2, h3 {
+            font-weight: 900;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            text-shadow: var(--neon-glow);
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--accent-color);
+            transform: skew(-20deg);
+        }
+
+        h3 {
+            font-size: 1.8rem;
+        }
+
+        /* Navigation */
+        nav {
+            background-color: var(--text-color);
+            padding: 1rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        nav ul {
+            list-style-type: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        nav ul li {
+            margin: 0 1rem;
+        }
+
+        nav ul li a {
+            color: var(--background-color);
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            padding: 5px 10px;
+        }
+
+        nav ul li a:hover {
+            color: var(--accent-color);
+        }
+
+        /* Language Switcher */
+        .language-switcher {
+            position: fixed;
+            top: 10px;
+            right: 20px;
+            z-index: 1001;
+        }
+
+        .language-switcher select {
+            padding: 5px;
+            font-size: 14px;
+            border: 2px solid var(--accent-color);
+            background-color: var(--text-color);
+            color: var(--background-color);
+        }
+
+        /* Sections */
+        section {
+            margin: 4rem 0;
+            padding: 2rem;
+            background-color: #fff;
+            border: 8px solid var(--text-color);
+            box-shadow: 10px 10px 0 rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 15px 15px 0 rgba(0,0,0,0.2);
+        }
+
+        /* About Section */
+        #about {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        #about .content {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        #about img {
+            width: 250px;
+            height: 250px;
+            object-fit: cover;
+            border: 5px solid var(--text-color);
+            margin-left: 2rem;
+        }
+
+        /* Skills Section */
+        .skill-container {
+            background-color: var(--primary-color);
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border: 3px solid var(--text-color);
+        }
+
+        .skill-bar {
+            height: 20px;
+            background-color: var(--secondary-color);
+            width: 0;
+            transition: width 1s ease-in-out;
+        }
+
+        /* Projects Section */
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-item {
+            background-color: var(--secondary-color);
+            padding: 1.5rem;
+            border: 5px solid var(--text-color);
+            transition: all 0.3s ease;
+        }
+
+        .project-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .project-item img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border: 3px solid var(--text-color);
+            margin-bottom: 1rem;
+        }
+
+        .project-item a {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: bold;
+            border: 2px solid var(--text-color);
+            transition: all 0.3s ease;
+        }
+
+        .project-item a:hover {
+            background-color: var(--accent-color);
+        }
+
+        /* Contact Form */
+        form {
+            display: grid;
+            gap: 1rem;
+        }
+
+        input, textarea, button {
+            width: 100%;
+            padding: 0.8rem;
+            border: 3px solid var(--text-color);
+            font-family: 'Roboto Mono', monospace;
+            font-size: 1rem;
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background-color: var(--accent-color);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--text-color);
+            color: var(--background-color);
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            nav ul li {
+                margin: 0.5rem 0;
+            }
+
+            #about {
+                flex-direction: column;
+            }
+
+            #about img {
+                margin-left: 0;
+                margin-top: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="language-switcher">
+        <select id="languageSelect">
+            <option value="en">English</option>
+            <option value="ta">தமிழ்</option>
+            <option value="hi">हिंदी</option>
+        </select>
+    </div>
+
+    <nav>
+        <ul>
+            <li><a href="#home" class="nav-link" data-lang-key="nav-home">Home</a></li>
+            <li><a href="#about" class="nav-link" data-lang-key="nav-about">About</a></li>
+            <li><a href="#skills" class="nav-link" data-lang-key="nav-skills">Skills</a></li>
+            <li><a href="#projects" class="nav-link" data-lang-key="nav-projects">Projects</a></li>
+            <li><a href="#publications" class="nav-link" data-lang-key="nav-publications">Publications</a></li>
+            <li><a href="#contact" class="nav-link" data-lang-key="nav-contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <section id="home">
+            <h1 data-lang-key="name">SRIDHAR</h1>
+            <p data-lang-key="title">Advanced Computer Science Student & Digital Innovator</p>
+        </section>
+
+        <section id="about">
+            <div class="content">
+                <h2 data-lang-key="about-title">About Me</h2>
+                <p data-lang-key="about-description">As an advanced computer science student, I'm passionate about pushing the boundaries of technology. My expertise spans from low-level systems programming to cutting-edge AI and machine learning applications. I thrive on solving complex problems and creating innovative solutions that make a real-world impact.</p>
+            </div>
+            <img src="image.png" alt="Sridhar's profile picture">
+        </section>
+
+        <section id="skills">
+            <h2 data-lang-key="skills-title">Skills</h2>
+            <div class="skill-container">
+                <h3 data-lang-key="skill-algorithms">Advanced Algorithms</h3>
+                <div class="skill-bar" style="width: 95%;"></div>
+            </div>
+            <div class="skill-container">
+                <h3 data-lang-key="skill-ml">Machine Learning & AI</h3>
+                <div class="skill-bar" style="width: 90%;"></div>
+            </div>
+            <div class="skill-container">
+                <h3 data-lang-key="skill-fullstack">Full-Stack Development</h3>
+                <div class="skill-bar" style="width: 88%;"></div>
+            </div>
+            <div class="skill-container">
+                <h3 data-lang-key="skill-datastructures">Data Structures</h3>
+                <div class="skill-bar" style="width: 92%;"></div>
+            </div>
+            <div class="skill-container">
+                <h3 data-lang-key="skill-quantum">Quantum Computing</h3>
+                <div class="skill-bar" style="width: 85%;"></div>
+            </div>
+        </section>
+
+        <section id="projects">
+            <h2 data-lang-key="projects-title">Projects</h2>
+            <div class="project-grid">
+                <!-- Project items will be dynamically added here -->
+            </div>
+        </section>
+
+        <section id="publications">
+            <h2 data-lang-key="publications-title">Publications</h2>
+            <div class="publication-item">
+                <h3 data-lang-key="publication-title">An Integrated Development Of IoT Based Machine Learning For Data-Driven Travel Recommendations</h3>
+                <p data-lang-key="publication-details">Published in IEEE, 2024</p>
+                <a href="https://ieeexplore.ieee.org/document/10533494" target="_blank" data-lang-key="read-more">Read More</a>
+            </div>
+        </section>
+
+        <section id="contact">
+            <h2 data-lang-key="contact-title">Contact Me</h2>
+            <form id="contact-form">
+                <input type="text" placeholder="Name" required data-lang-key="name-placeholder">
+                <input type="email" placeholder="Email" required data-lang-key="email-placeholder">
+                <textarea placeholder="Message" rows="5" required data-lang-key="message-placeholder"></textarea>
+                <button type="submit" data-lang-key="send-message">Send Message</button>
+            </form>
+        </section>
+    </div>
+
+    <footer>
+        <p data-lang-key="footer-text">© 2024 SRIDHAR. All rights reserved.</p>
+    </footer>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
+
+        // GSAP Animations
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Animate header on page load
+        gsap.from("#home h1", {
+            duration: 1.5,
+            y: -100,
+            opacity: 0,
+            ease: "bounce.out"
+        });
+
+        gsap.from("#home p", {
+            duration: 1,
+            x: -100,
+            opacity: 0,
+            delay: 0.5
+        });
+
+        // Animate sections on scroll
+        gsap.utils.toArray("section").forEach(section => {
+            gsap.from(section, {
+                scrollTrigger: {
+                    trigger: section,
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse"
+                },
+                opacity: 0,
+                y: 50,
+                duration: 1
+            });
+        });
+
+        // Animate skill bars
+        gsap.utils.toArray(".skill-bar").forEach(bar => {
+            gsap.to(bar, {
+                scrollTrigger: {
+                    trigger: bar,
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse"
+                },
+                width: bar.style.width,
+                duration: 1.5,
+                ease: "power2.out"
+            });
+        });
+
+        // Dynamic Project Loading
+        const projects = [
+        {
+            title: "Morse Code Generator And Analyze",
+            description: "The project aims to develop a comprehensive Morse Code Generator and Analyzer tool that enables users to convert text to Morse code and decode Morse code back into readable text...",
+            imageUrl: "project1.jpg",
+            projectUrl: "https://sridhar242004.github.io/MORSE-CODE-AND-EMOTIONAL-ANALYZER/"
+        },
+        {
+            title: "Music Visualization",
+            description: "The Interactive Music Studio allows users to perform various tasks related to music creation, recording, and manipulation...",
+            imageUrl: "project2.jpg",
+            projectUrl: "https://sridhar242004.github.io/MUSIC_STUDIO/"
+        },
+        {
+            title: "Story Reader",
+            description: "Story Reader is a web application designed to enhance the reading experience by providing users with a platform to access and enjoy a curated collection of stories...",
+            imageUrl: "project3.jpg",
+            projectUrl: "https://sridhar242004.github.io/story-Reader/"
+        },
+        {
+            title: "QuantumED",
+            description: "QuantumED is the educational platform....",
+            imageUrl: "project4.jpg",
+            projectUrl: "https://sridhar242004.github.io/QuantumED/codechefreplica/index.html"
+        },
+        {
+            title: "Interactive Story Telling Website",
+            description: "Interactive Story Telling Website is the story reading platform...",
+            imageUrl: "project5.jpg",
+            projectUrl: "https://sridhar242004.github.io/STORY_TELLING-WEBSITE/"
+        },
+        {
+            title: "Quantum Computing Website",
+            description: "Quantum Computing Website is a learning platform...",
+            imageUrl: "project6.jpg",
+            projectUrl: "https://sridhar242004.github.io/Quantum-Computing/"
+        },
+        {
+            title: "CLIMATE-CHANGE-SIMULATOR",
+            description: "Future climate predictions in various parts of the world and green house effect",
+            imageUrl: "project7.jpg",
+            projectUrl: "https://sridhar242004.github.io/CLIMATE-CHANGE-SIMULATOR/"
+        },
+        {
+            title: "Foot-print calculator",
+            description: "A tool that helps you calculate your ecological footprint by providing a simple and interactive way to measure your resource consumption and environmental impact, offering suggestions to reduce your footprint and live more sustainably.",
+            imageUrl: "project8.jpg",
+            projectUrl: "https://sridhar242004.github.io/Foot-Print-Calculator/"
+        },
+        {
+            title: "Dice-Game",
+            description: " A dice game is a type of game that uses one or more dice as the primary component, often as a random device, where players roll the dice to score points, take actions, or make decisions, with various combinations and outcomes determining the game’s progression and outcome.",
+            imageUrl: "project9.jpg",
+            projectUrl: "https://sridhar242004.github.io/dice-game/"
+        },
+        {
+            title: "Shooter-Game",
+            description: "Fast-paced Shooter Game",
+            imageUrl: "project10.jpg",
+            projectUrl: "https://sridhar242004.github.io/shooter-game/"
+        },
+        {
+            title: "flappy-bird",
+            description: "Endless flying, pipe-avoiding game",
+            imageUrl: "project11.jpg",
+            projectUrl: "https://sridhar242004.github.io/flappy-bird/"
+        },
+        {
+            title: "To-Do-list",
+            description: "Organize Your To-Do List",
+            imageUrl: "project12.jpg",
+            projectUrl: "https://sridhar242004.github.io/To-Do-list/"
+        },
+        {
+            title: "3d-shape-viewer",
+            description: "Free online 3D design viewer",
+            imageUrl: "project13.jpg",
+            projectUrl: "https://sridhar242004.github.io/3d-shape-viewer/"
+        },
+         {
+            title: "snake-game",
+            description: "Avoid Obstacles, Survive Longer",
+            imageUrl: "project14.jpg",
+            projectUrl: "https://sridhar242004.github.io/snake-game/"
+        },
+        {
+            title: "VIRTUAL-WAREDOOR",
+            description: "Virtual Waredoor is a digital platform.",
+            imageUrl: "project15.jpg",
+            projectUrl: "https://sridhar242004.github.io/VIRTUAL-WAREDOOR/"
+        },
+        {
+            title: "DNA-FITNESS-TRACKER-AND-SUGGESTIONS",
+            description: "Fitness suggestions based on DNA(upload your ,or sample DNA json.file)",
+            imageUrl: "project16.jpg",
+            projectUrl: "https://sridhar242004.github.io/DNA-FITNESS-TRACKER-AND-SUGGESTIONS/"
+        },
+        {
+            title: "virtual-debate",
+            description: "Worlds first virtual debate platform",
+            imageUrl: "project17.jpg",
+            projectUrl: "https://sridhar242004.github.io/virtual-debate/"
+        },
+        {
+            title: "Personalized-Digital-Detox-Assistant",
+            description: "very simple and basic Personalized-Digital-Detox-Assistant",
+            imageUrl: "project18.jpg",
+            projectUrl: "https://sridhar242004.github.io/Personalized-Digital-Detox-Assistant/"
+        },
+        {
+            title: "Interactive-Genomic-Data-Explorer",
+            description: "New innovative and interactive functions with the DNA ",
+            imageUrl: "project19.jpg",
+            projectUrl: "https://sridhar242004.github.io/Interactive-Genomic-Data-Explorer/"
+        },
+        {
+            title: "Advanced-collage-maker",
+            description: "new way of collage making ",
+            imageUrl: "project20.jpg",
+            projectUrl: "https://sridhar242004.github.io/Advanced-collage-maker/"
+        },
+        {
+            title: "Resume-Builder",
+            description: "new way of resume building ",
+            imageUrl: "project21.jpg",
+            projectUrl: "https://sridhar242004.github.io/resume-builder/"
+        },
+        {
+            title: "website-UI-TRENDS",
+            description: "new way of building a website with advanced new trends with preloaded codes ",
+            imageUrl: "project22.jpg",
+            projectUrl: "https://sridhar242004.github.io/website-UI-TRENDS/"
+        },
+        {
+            title: "website-UI-TRENDS",
+            description: "new way of building a website with advanced new trends with preloaded codes ",
+            imageUrl: "project23.jpg",
+            projectUrl: "https://sridhar242004.github.io/website-UI-TRENDS/index5.html"
+        },
+        {
+            title: "Neo-Ride", 
+            description: "Neo Ride offers a reliable and eco-friendly public transportation solution, utilizing a fleet of Electric Vehicles (EVs) to reduce carbon emissions and promote sustainable mobility.",
+            imageUrl: "project24.jpg",
+            projectUrl: "https://sridhar242004.github.io/NEO-RIDE/"
+        },
+        {
+            title: "Fashion AI",
+            description: "Fashion AI has made significant progress in developing systems that can recommend and generate clothes based on individual preferences and styles",
+            imageUrl: "project25.jpg",
+            projectUrl: "https://sridhar242004.github.io/Fashion-Ai-/"
+        }
+        ];
+
+        const projectGrid = document.querySelector('.project-grid');
+        projects.forEach(project => {
+            const projectElement = document.createElement('div');
+            projectElement.className = 'project-item';
+            projectElement.innerHTML = `
+                <img src="${project.imageUrl}" alt="${project.title}">
+                <h3>${project.title}</h3>
+                <p>${project.description}</p>
+                <a href="${project.projectUrl}" target="_blank" data-lang-key="view-project">View Project</a>
+            `;
+            projectGrid.appendChild(projectElement);
+        });
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Form submission
+        document.getElementById('contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you for your message! I will get back to you soon.');
+            this.reset();
+        });
+
+        // Multilingual Support
+        const languages = {
+            en: {
+                "nav-home": "Home",
+                "nav-about": "About",
+                "nav-skills": "Skills",
+                "nav-projects": "Projects",
+                "nav-publications": "Publications",
+                "nav-contact": "Contact",
+                "name": "SRIDHAR",
+                "title": "Advanced Computer Science Student & Digital Innovator",
+                "about-title": "About Me",
+                "about-description": "As an advanced computer science student, I'm passionate about pushing the boundaries of technology. My expertise spans from low-level systems programming to cutting-edge AI and machine learning applications. I thrive on solving complex problems and creating innovative solutions that make a real-world impact.",
+                "skills-title": "Skills",
+                "skill-algorithms": "Advanced Algorithms",
+                "skill-ml": "Machine Learning & AI",
+                "skill-fullstack": "Full-Stack Development",
+                "skill-datastructures": "Data Structures",
+                "skill-quantum": "Quantum Computing",
+                "projects-title": "Projects",
+                "view-project": "View Project",
+                "publications-title": "Publications",
+                "publication-title": "An Integrated Development Of IoT Based Machine Learning For Data-Driven Travel Recommendations",
+                "publication-details": "Published in IEEE, 2024",
+                "read-more": "Read More",
+                "contact-title": "Contact Me",
+                "name-placeholder": "Name",
+                "email-placeholder": "Email",
+                "message-placeholder": "Message",
+                "send-message": "Send Message",
+                "footer-text": "© 2024 SRIDHAR. All rights reserved."
+            },
+            ta: {
+                "nav-home": "முகப்பு",
+                "nav-about": "என்னைப் பற்றி",
+                "nav-skills": "திறன்கள்",
+                "nav-projects": "திட்டங்கள்",
+                "nav-publications": "வெளியீடுகள்",
+                "nav-contact": "தொடர்பு",
+                "name": "ஸ்ரீதர்",
+                "title": "மேம்பட்ட கணினி அறிவியல் மாணவர் & டிஜிட்டல் புத்தாக்குநர்",
+                "about-title": "என்னைப் பற்றி",
+                "about-description": "மேம்பட்ட கணினி அறிவியல் மாணவராக, தொழில்நுட்பத்தின் எல்லைகளை விரிவுபடுத்துவதில் நான் ஆர்வமாக உள்ளேன். எனது நிபுணத்துவம் குறைந்த-நிலை அமைப்புகள் நிரலாக்கத்திலிருந்து அதிநவீன AI மற்றும் இயந்திர கற்றல் பயன்பாடுகள் வரை பரவியுள்ளது. சிக்கலான பிரச்சினைகளைத் தீர்ப்பதிலும், உண்மையான உலக தாக்கத்தை ஏற்படுத்தும் புதுமையான தீர்வுகளை உருவாக்குவதிலும் நான் செழித்தோங்குகிறேன்.",
+                "skills-title": "திறன்கள்",
+                "skill-algorithms": "மேம்பட்ட நெறிமுறைகள்",
+                "skill-ml": "இயந்திர கற்றல் & AI",
+                "skill-fullstack": "முழு-ஸ்டாக் மேம்பாடு",
+                "skill-datastructures": "தரவு கட்டமைப்புகள்",
+                "skill-quantum": "குவாண்டம் கணினி",
+                "projects-title": "திட்டங்கள்",
+                "view-project": "திட்டத்தைக் காண்க",
+                "publications-title": "வெளியீடுகள்",
+                "publication-title": "தரவு-இயக்க பயண பரிந்துரைகளுக்கான IoT அடிப்படையிலான இயந்திர கற்றலின் ஒருங்கிணைந்த மேம்பாடு",
+                "publication-details": "IEEE இல் வெளியிடப்பட்டது, 2024",
+                "read-more": "மேலும் படிக்க",
+                "contact-title": "என்னை தொடர்பு கொள்ளவும்",
+                "name-placeholder": "பெயர்",
+                "email-placeholder": "மின்னஞ்சல்",
+                "message-placeholder": "செய்தி",
+                "send-message": "செய்தி அனுப்பு",
+                "footer-text": "© 2024 ஸ்ரீதர். அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை."
+            },
+            hi: {
+                "nav-home": "होम",
+                "nav-about": "मेरे बारे में",
+                "nav-skills": "कौशल",
+                "nav-projects": "प्रोजेक्ट्स",
+                "nav-publications": "प्रकाशन",
+                "nav-contact": "संपर्क",
+                "name": "श्रीधर",
+                "title": "उन्नत कंप्यूटर विज्ञान छात्र और डिजिटल नवप्रवर्तक",
+                "about-title": "मेरे बारे में",
+                "about-description": "एक उन्नत कंप्यूटर विज्ञान छात्र के रूप में, मैं प्रौद्योगिकी की सीमाओं को आगे बढ़ाने के लिए उत्साहित हूं। मेरी विशेषज्ञता निम्न-स्तरीय सिस्टम प्रोग्रामिंग से लेकर अत्याधुनिक AI और मशीन लर्निंग अनुप्रयोगों तक फैली हुई है। मैं जटिल समस्याओं को हल करने और नवीन समाधान बनाने में पनपता हूं जो वास्तविक दुनिया में प्रभाव डालते हैं।",
+                "skills-title": "कौशल",
+                "skill-algorithms": "उन्नत एल्गोरिदम",
+                "skill-ml": "मशीन लर्निंग और AI",
+                "skill-fullstack": "फुल-स्टैक विकास",
+                "skill-datastructures": "डेटा संरचनाएँ",
+                "skill-quantum": "क्वांटम कंप्यूटिंग",
+                "projects-title": "प्रोजेक्ट्स",
+                "view-project": "प्रोजेक्ट देखें",
+                "publications-title": "प्रकाशन",
+                "publication-title": "डेटा-संचालित यात्रा सिफारिशों के लिए IoT आधारित मशीन लर्निंग का एक एकीकृत विकास",
+                "publication-details": "IEEE में प्रकाशित, 2024",
+                "read-more": "और पढ़ें",
+                "contact-title": "मुझसे संपर्क करें",
+                "name-placeholder": "नाम",
+                "email-placeholder": "ईमेल",
+                "message-placeholder": "संदेश",
+                "send-message": "संदेश भेजें",
+                "footer-text": "© 2024 श्रीधर। सर्वाधिकार सुरक्षित।"
+            }
+        };
+
+        function setLanguage(lang) {
+            document.querySelectorAll('[data-lang-key]').forEach(element => {
+                const key = element.getAttribute('data-lang-key');
+                if (languages[lang] && languages[lang][key]) {
+                    if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                        element.placeholder = languages[lang][key];
+                    } else {
+                        element.textContent = languages[lang][key];
+                    }
+                }
+            });
+        }
+
+        document.getElementById('languageSelect').addEventListener('change', function() {
+            setLanguage(this.value);
+        });
+
+        // Set initial language
+        setLanguage('en');
+    </script>
+</body>
+</html>
